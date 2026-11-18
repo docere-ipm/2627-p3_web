@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from collections.abc import Iterable
 import datetime as dt
 from gettext import gettext as _
 from html.parser import HTMLParser
@@ -73,18 +74,22 @@ class BCD: # Browser Compatibility Data
         return self.data['html']['global_attributes'].get(name, None)
 
     def css_property(self, name: str) -> dict | None:
-        return self.data['css']['properties']
-    
+        return self.data['css']['properties'].get(name, None)
+
+    def api_methods(self, name: str) -> Iterable[dict]:
+        return [bcd_obj for api_name, bcd_obj in self.data['api'].items()
+                if name in bcd_obj]
+        
     def mdn_url(self, obj: dict) -> str:
         return obj['__compat']['mdn_url']
 
     def status(self, obj: dict) -> BaselineStatus | Error:
         compat = obj.get('__compat', None)
         if compat is None:
-            return Error(_("no es un objeto con datos de compatibilidad: '{obj}'").format(obj= obj))
+            return Error(_("no es un objeto con datos de compatibilidad"))
         status = compat.get('status', None)
         if status is None:
-            return Error(_("__compat malformado, no tiene 'status': '{compat}'").format(compat = compat))
+            return Error(_("__compat malformado, no tiene 'status'"))
         if status['deprecated']:
             return DEPRECATED
         elif not status['standard_track']:
@@ -199,7 +204,7 @@ def check_html(bcd: BCD, code: str, only_widely_available: bool) -> int:
         bcd_obj = bcd.html_element(tag)
         status = bcd.status(bcd_obj)
                                  
-        if status is None:
+        if is_error(status):
             error(_("Línea {lineno}: '{tag}' no es un elemento html"),
                   tag= tag, lineno= lineno)
             error_count = error_count + 1
@@ -260,7 +265,8 @@ def check_css(bcd: BCD, code: str, only_widely_available: bool) -> int:
         bcd_obj = bcd.css_property(name)
         status = bcd.status(bcd_obj)
             
-        if status is None:
+        if is_error(status):
+            print(status)
             error(_("'{name}' no es una propiedad de CSS"), name= name)
             error_count = error_count + 1
 
@@ -282,6 +288,45 @@ def check_css(bcd: BCD, code: str, only_widely_available: bool) -> int:
         elif status == NEWLY_AVAILABLE and self.only_widely_available:
             error(_("'{name}' sólo está newly available"), name= name)
             error_count = error_count + 1
+    
+    return error_count
+
+
+def check_js(bcd: BCD, code: str, only_widely_available: bool) -> int:
+    error_count = 0
+    no_comment = re.sub(r"//.*?$|/\*.*?\*/", "", code, flags=re.DOTALL | re.MULTILINE)
+    # Extraer llamadas a métodos/APIs tras punto (ej. .showModal, .animate)
+    methods = re.findall(r"\.([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(", no_comment)
+    for name in methods:
+        bcd_objs = bcd.api_methods(name)
+        if len(bcd_objs) == 0:
+            error(_("'{name}' no pertenece a ninguna API"), name= name)
+            error_count = error_count + 1
+            continue
+            
+        for bcd_obj in bcd.api_methods(name):
+            status = bcd.status(bcd_obj)
+            if is_error(status):
+                error(status)
+
+            elif status == DEPRECATED:
+                error(_("'{name}' está obsoleto, se desaconseja su uso\n  {mdn_url}"),
+                      name= name, mdn_url= bcd.mdn_url(bcd_obj))
+                error_count = error_count + 1
+
+
+            elif status == NO_STANDARD:
+                error(_("'{name}' no forma parte de ninguna especificación"),
+                      name= name)
+                error_count = error_count + 1
+
+            elif status == LIMITED_AVAILABILITY:
+                error(_("'{name}' no está en el baseline"), name= name)
+                error_count = error_count + 1
+
+            elif status == NEWLY_AVAILABLE and only_widely_available:
+                error(_("'{name}' sólo está newly available"), name= name)
+                error_count = error_count + 1
     
     return error_count
 
@@ -321,24 +366,11 @@ def main(filenames: list[str], only_widely_available: bool = True) -> None:
             print()
                 
         elif suffix == '.js':
-            continue
-            # Eliminar comentarios JS de línea y bloque
-            sin_comentarios = re.sub(r"//.*?$|/\*.*?\*/", "", contenido, flags=re.DOTALL | re.MULTILINE)
-            # Extraer llamadas a métodos/APIs tras punto (ej. .showModal, .animate)
-            metodos = re.findall(r"\.([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(", sin_comentarios)
-            identificadores_js.update(metodos)
+            error_count = check_js(bcd, texto, only_widely_available)
+            if error_count == 0:
+                print(f"✅ Todos los elementos detectados cumplen 'Baseline ({nivel})'.")
+            print()
             
-            for metodo in sorted(metodos_js):
-                # Buscar coincidencia en claves api.*.<metodo>
-                coincidencias = [k for k in indice if k.startswith("api.") and k.endswith(f".{metodo}")]
-                if coincidencias:
-                    # Si todas las variantes de esa API están fuera de Baseline, avisar
-                    estados = [indice[k]["baseline"] for k in coincidencias]
-                    if not any(es_valido_baseline(e) for e in estados):
-                        nombre = indice[coincidencias[0]]["nombre"]
-                        alertas.append(f"[JS] '.{metodo}()' -> Estado Baseline: {estados[0]} ({nombre})")
-
-
         else:
             print("????")
         print()
