@@ -1,0 +1,81 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FlyNow - Inicio (Versión Legacy)</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="header-container">
+        <div class="logo">FlyNow Air</div>
+        
+        <div class="menu-horizontal">
+            <div class="menu-item">Inicio</div>
+            <div class="menu-item">Vuelos</div>
+            <div class="menu-item">Destinos</div>
+            <div class="menu-item">Hoteles</div>
+            <div class="menu-item">Coches</div>
+            <div class="menu-item">Ofertas</div>
+            <div class="menu-item">Grupos</div>
+            <div class="menu-item">Empresas</div>
+            <div class="menu-item">Ayuda</div>
+            <div class="menu-item">Contacto</div>
+            <div class="menu-item">Mi Cuenta</div>
+            <div class="menu-item">Idioma</div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="hero-section">
+            <h1 class="titulo-principal">Bienvenido a tu próxima aventura</h1>
+            <p class="texto-descripcion">Reserva tus vuelos al mejor precio de forma rápida y sencilla.</p>
+            
+            <img src="airplane-flying-clouds.jpg" width="3840" height="2160" alt="Avión volando entre nubes">
+        </div>
+
+        <div class="form-section">
+            <h2>Reserva tu vuelo de ida y vuelta</h2>
+            
+            <form id="vuelo-form">
+                <div class="form-group">
+                    <span>Nombre y Apellidos:</span>
+                    <input type="text" id="nombre" name="nombre">
+                </div>
+
+                <div class="form-group">
+                    <span>Documento de Identidad (DNI/Pasaporte):</span>
+                    <input type="text" id="dni" name="dni">
+                </div>
+
+                <div class="form-group">
+                    <span>Correo Electrónico:</span>
+                    <input type="text" id="email" name="email">
+                </div>
+
+                <div class="form-group">
+                    <span>Fecha y Hora de Ida:</span>
+                    <input type="datetime-local" id="fecha-ida" name="fecha-ida">
+                </div>
+
+                <div class="form-group">
+                    <span>Fecha y Hora de Vuelta:</span>
+                    <input type="datetime-local" id="fecha-vuelta" name="fecha-vuelta">
+                </div>
+
+                <div class="form-group">
+                    <span>Teléfono de Contacto:</span>
+                    <input type="tel" id="telefono" name="telefono">
+                </div>
+
+                <button type="submit">Contratar Vuelo</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2026 Company.com - Todos los derechos reservados.</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FlyNow - Inicio (Versión Mobile Legacy)</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Meta viewport básico que a menudo se configuraba mal en webs legacy -->
+    <meta name="viewport" content="width=375, initial-scale=1.0">
+</head>
+<body>
+
+    <!-- Aviso de versión separada (típico de webs antiguas) -->
+    <div class="version-banner">
+        Estás en la versión móvil. <a href="../index.html">Ir a versión escritorio</a>
+    </div>
+
+    <!-- Cabecera móvil -->
+    <div class="mobile-header">
+        <div class="mobile-logo">FlyNow Air</div>
+        <!-- Menú móvil colapsado de forma rudimentaria -->
+        <div class="mobile-menu-btn">☰ Menú (12 opciones)</div>
+    </div>
+
+    <!-- Contenido principal con ancho fijo para móvil -->
+    <div class="mobile-content">
+        <div class="mobile-hero">
+            <h1 class="mobile-title">Tu próxima aventura</h1>
+            <p class="mobile-desc">Reserva tus vuelos al mejor precio.</p>
+            
+            <!-- Imagen enorme descargándose en un móvil -->
+            <img src="./hero-image-4k.jpg" width="3840" height="2160" alt="Avión volando">
+        </div>
+
+        <!-- Formulario móvil sin accesibilidad -->
+        <div class="mobile-form-section">
+            <h2>Vuelo Ida y Vuelta</h2>
+            
+            <form id="mobile-vuelo-form">
+                <div class="form-group">
+                    <span>Nombre y Apellidos:</span>
+                    <input type="text" id="m-nombre" name="nombre">
+                </div>
+
+                <div class="form-group">
+                    <span>DNI / Pasaporte:</span>
+                    <input type="text" id="m-dni" name="dni">
+                </div>
+
+                <div class="form-group">
+                    <span>Correo Electrónico:</span>
+                    <input type="text" id="m-email" name="email">
+                </div>
+
+                <div class="form-group">
+                    <span>Ida:</span>
+                    <input type="datetime-local" id="m-fecha-ida" name="fecha-ida">
+                </div>
+
+                <div class="form-group">
+                    <span>Vuelta:</span>
+                    <input type="datetime-local" id="m-fecha-vuelta" name="fecha-vuelta">
+                </div>
+
+                <div class="form-group">
+                    <span>Teléfono:</span>
+                    <input type="tel" id="m-telefono" name="telefono">
+                </div>
+
+                <button type="submit">Reservar</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="mobile-footer">
+        <p>&copy; 2026 Company.com</p>
+    </div>
+
+    <script src="../script.js"></script>
+</body>
+</html>

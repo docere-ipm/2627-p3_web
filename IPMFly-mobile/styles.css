@@ -1,0 +1,101 @@
+/* T1: Estilos rígidos específicos para móvil (ancho fijo de 375px) */
+body {
+    width: 375px; 
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    font-size: 14px; /* Valores absolutos en píxeles */
+    background-color: #f4f4f4;
+}
+
+.version-banner {
+    background-color: #ffcc00;
+    color: #333;
+    font-size: 11px;
+    text-align: center;
+    padding: 5px;
+}
+
+.mobile-header {
+    background-color: #003366;
+    color: white;
+    padding: 15px;
+    width: 375px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mobile-logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.mobile-menu-btn {
+    font-size: 12px;
+    background: #002244;
+    padding: 5px 8px;
+    cursor: pointer;
+}
+
+.mobile-content {
+    background-color: white;
+    padding: 15px;
+    width: 345px; /* Ancho absoluto forzado */
+}
+
+.mobile-title {
+    font-size: 24px; /* Píxeles absolutos */
+    color: #333;
+}
+
+.mobile-desc {
+    font-size: 14px;
+}
+
+/* La imagen 4K se fuerza a encogerse pero sigue pesando lo mismo en descarga */
+.mobile-hero img {
+    width: 100%;
+    height: auto;
+}
+
+.mobile-form-section {
+    margin-top: 20px;
+    background-color: #e9ecef;
+    padding: 15px;
+}
+
+.form-group {
+    margin-bottom: 12px;
+}
+
+.form-group span {
+    display: block;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 6px;
+    font-size: 12px;
+    box-sizing: border-box; /* Problemas típicos con paddings y anchos */
+}
+
+button[type="submit"] {
+    background-color: #003366;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.mobile-footer {
+    background-color: #222;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    width: 375px;
+    font-size: 12px;
+}
