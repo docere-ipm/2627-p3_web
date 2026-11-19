@@ -250,7 +250,7 @@ estructural y semántica.
 En las tareas anteriores has trabajado con un formulario típico de
 contratación de un vuelo de ida y vuelta (nombre, apellidos, documento
 de identidad, fechas/horas de trayecto, teléfono y correo
-electrónico). Aunque has implemetando un diseño es adaptable, todavía
+electrónico). Aunque has implemetando un diseño adaptable, todavía
 carece de una validación robusta y de soporte para tecnologías de
 asistencia.
 
